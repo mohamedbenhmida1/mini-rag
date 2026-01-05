@@ -1,2 +1,0 @@
-# mini-rag
-Initial setup
