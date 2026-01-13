@@ -18,8 +18,20 @@
       "response": []
     },
     {
-      "name": "New Request",
+      "name": "Upload",
       "id": "af631828-f554-47d9-9745-56ab420c4a49",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process",
+      "id": "22b55f4a-e51a-42c1-a027-1d984a25e176",
       "request": {
         "method": "GET",
         "header": [],
