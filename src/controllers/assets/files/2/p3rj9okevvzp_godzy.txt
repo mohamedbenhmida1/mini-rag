@@ -1,0 +1,95 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{left=1.6cm,right=1.6cm,top=1.3cm,bottom=1.7cm}
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*,label=--,itemsep=2pt,topsep=1pt}
+\usepackage{setspace}
+\setstretch{1.05}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,urlcolor=black}
+\pagestyle{empty}
+\raggedright
+
+\newcommand{\cvsection}[1]{%
+\vspace{10pt}\textbf{#1}\par\rule{\linewidth}{0.4pt}\vspace{6pt}%
+}
+
+\begin{document}
+
+% ==================== HEADER ====================
+\noindent
+\begin{minipage}[t]{0.63\textwidth}
+{\LARGE \textbf{Adem Nasraoui}}\\[4pt]
+\textbf{Étudiant en Ingénierie Data Science}\\
+École d’ingénieurs Denis Diderot — Université Paris Cité
+\end{minipage}%
+\begin{minipage}[t]{0.36\textwidth}\raggedleft
+\href{mailto:medademnasraoui10@gmail.com}{medademnasraoui10@gmail.com}\\
++33 6 05 95 31 67\\
+Chevilly-Larue (94550), France
+\end{minipage}
+
+\vspace{6pt}
+\hrule
+\vspace{8pt}
+
+% ==================== OBJECTIVE ====================
+\begin{center}
+\large \textbf{Recherche un stage de 6 mois (début janvier 2026) en Data Science}
+\end{center}
+
+% ==================== EDUCATION ====================
+\cvsection{FORMATION}
+\begin{itemize}
+\item \textbf{École d’ingénieurs Denis Diderot — Université Paris Cité} \hfill 2023–2026\\
+Parcours : Data Science et Statistiques (Diplôme d’ingénieur, niveau Master)
+\item \textbf{Classes Préparatoires aux Grandes Écoles — Filière MPSI/MP} \hfill 2021–2023
+\end{itemize}
+
+% ==================== PROFESSIONAL EXPERIENCE ====================
+\cvsection{EXPÉRIENCE PROFESSIONNELLE}
+
+\begin{itemize}
+
+\item \textbf{Bioinformaticien — Institut du Cerveau (ICM), Paris} \hfill Mai–Juillet 2025\\
+\begin{itemize}
+  \item Analyse de \textbf{données biomédicales multi-patients} en environnement clinique.
+  \item Contrôle qualité des données et harmonisation d’une cohorte.
+  \item Modèles statistiques et \textbf{analyses ML} pour identifier des biomarqueurs.
+  \item Échanges réguliers avec les \textbf{cliniciens} pour adapter les analyses.
+  \item Développement de \textbf{pipelines Python automatisés} et reproductibles.
+  \item Création de \textbf{rapports et visualisations} pour les équipes cliniques.
+\end{itemize}
+
+\item \textbf{Développeur Python — Edana, Fribourg (Suisse)} \hfill Juin–Août 2024\\
+\begin{itemize}
+  \item Développement d’un \textbf{outil d’analyse de données} industrielles (Python, pandas, NumPy).
+  \item Création de \textbf{dashboards Power BI} pour visualiser les performances du système.
+\end{itemize}
+
+\end{itemize}
+
+% ==================== TECHNICAL SKILLS ====================
+\cvsection{COMPÉTENCES TECHNIQUES}
+\begin{itemize}
+\item \textbf{Machine \& Deep Learning} : Scikit-learn, PyTorch, TensorFlow, CNN, Transformers, GNN.
+\item \textbf{Analyse Statistique} : Régression, ANOVA, clustering, sélection de variables, PCA, UMAP, t-SNE.
+\item \textbf{Bioinformatique} : Formats \textbf{VCF/BAM}, outils \textbf{bcftools}, \textbf{samtools}, \textbf{PLINK}.
+\item \textbf{Traitement d’images} : Segmentation, normalisation, data augmentation, annotation.
+\item \textbf{Programmation} : Python, R, C, SQL, Bash, pipelines (Snakemake / Nextflow).
+\item \textbf{Visualisation} : Power BI, Matplotlib, Seaborn, ggplot2.
+\item \textbf{Langues} : Français (C1), Anglais (C1).
+\end{itemize}
+
+% ==================== CERTIFICATIONS ====================
+\cvsection{CERTIFICATIONS}
+\begin{itemize}
+\item \textbf{IBM — Professional Certificate in Data Science} \hfill 2025
+\item \textbf{IBM — Professional Certificate in Data Analysis} \hfill 2025
+\end{itemize}
+
+\end{document}
