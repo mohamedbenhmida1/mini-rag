@@ -37,7 +37,7 @@ class OpenAIProvider(LLMinterface):
             self.embedding_size = embedding_size
 
         def process_text_input(self, text: str):
-            return text[: self.default_input_max_characters]
+            return text[: self.default_input_max_characters].strip()
 
         def generate_text(
             self,
