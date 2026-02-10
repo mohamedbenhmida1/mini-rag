@@ -1,5 +1,5 @@
 from .providers import QdrantDBProvider
-from .VectorDBEnums import VectorDBProviderEnum
+from .VectorDBEnums import VectorDBEnum
 from controllers.BaseController import BaseController
 
 
@@ -9,7 +9,7 @@ class VectorDBProviderFactory:
         self.base_controller = BaseController()
 
     def create(self, provider: str):
-        if provider == VectorDBProviderEnum.QDRANT.value:
+        if provider == VectorDBEnum.QDRANT.value:
             db_path = self.base_controller.get_database_path(
                 db_name=self.config.VECTOR_DB_PATH
             )

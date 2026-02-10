@@ -40,6 +40,18 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "New Request",
+      "id": "0b6fabec-1dde-4356-bd70-95d03d59b6c4",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
     }
   ],
   "variable": [

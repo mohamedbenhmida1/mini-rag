@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     EMBEDDING_MODEL_ID: str = None
     EMBEDDING_SIZE: int = None
 
-    INPUT_DEAFULT_MAX_CHARACTERS: int = None
+    INPUT_DEFAULT_MAX_CHARACTERS: int = None
     GENERATION_DEFAULT_MAX_OUTPUT_TOKENS: int = None
     GENERATION_DEFAULT_TEMPATURE: float = None
 

@@ -155,7 +155,7 @@ async def process_endpoint(
             for i, chunk in enumerate(file_chunks)
         ]
 
-        no_records += await chunk_model.instert_many_chunks(chunks=file_chunks_record)
+        no_records += await chunk_model.insert_many_chunks(chunks=file_chunks_record)
         no_files += 1
 
     return JSONResponse(
