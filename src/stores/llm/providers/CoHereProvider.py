@@ -10,14 +10,14 @@ class CoHereProvider(LLMinterface):
         api_key: str,
         default_input_max_characters: int = 1000,
         default_generation_max_output_tokens: int = 1000,
-        default_generation_tempature: float = 0.1,
+        default_generation_temperature: float = 0.1,
     ):
 
         self.api_key = api_key
 
         self.default_input_max_characters = default_input_max_characters
         self.default_generation_max_output_tokens = default_generation_max_output_tokens
-        self.default_generation_tempature = default_generation_tempature
+        self.default_generation_temperature = default_generation_temperature
 
         self.generation_model_id = None
 
@@ -26,6 +26,7 @@ class CoHereProvider(LLMinterface):
 
         self.client = cohere.Client(api_key=self.api_key)
 
+        self.enums = CoHereEnums
         self.logger = logging.getLogger(__name__)
 
     def set_generation_model(self, model_id: str):
@@ -35,7 +36,7 @@ class CoHereProvider(LLMinterface):
         self.embedding_model_id = model_id
         self.embedding_size = embedding_size
 
-    def process_text_input(self, text: str):
+    def process_text(self, text: str):
         return text[: self.default_input_max_characters].strip()
 
     def generate_text(
@@ -45,12 +46,13 @@ class CoHereProvider(LLMinterface):
         max_output_tokens: int = None,
         temperature: float = None,
     ):
+
         if not self.client:
-            self.logger.error("Cohere client was not set.")
+            self.logger.error("CoHere client was not set")
             return None
 
         if not self.generation_model_id:
-            self.logger.error("Generation model for Cohere was not set.")
+            self.logger.error("Generation model for CoHere was not set")
             return None
 
         max_output_tokens = (
@@ -58,38 +60,40 @@ class CoHereProvider(LLMinterface):
             if max_output_tokens
             else self.default_generation_max_output_tokens
         )
-        temperature = temperature if temperature else self.default_generation_tempature
+        temperature = (
+            temperature if temperature else self.default_generation_temperature
+        )
 
         response = self.client.chat(
             model=self.generation_model_id,
             chat_history=chat_history,
-            message=self.construct_prompt(prompt),
+            message=self.process_text(prompt),
             temperature=temperature,
             max_tokens=max_output_tokens,
         )
 
-        if not response or not response.mestexttesage:
-            self.logger.error("No response from Cohere API.")
+        if not response or not response.text:
+            self.logger.error("Error while generating text with CoHere")
             return None
 
         return response.text
 
-    def embed_text(self, text, document_type=None):
+    def embed_text(self, text: str, document_type: str = None):
         if not self.client:
-            self.logger.error("Cohere client was not set.")
+            self.logger.error("CoHere client was not set")
             return None
 
         if not self.embedding_model_id:
-            self.logger.error("Embedding model for Cohere was not set.")
+            self.logger.error("Embedding model for CoHere was not set")
             return None
 
         input_type = CoHereEnums.Document.value
-        if document_type in (DocumentTypeEnum.QUERY, DocumentTypeEnum.QUERY.value):
+        if document_type == DocumentTypeEnum.QUERY.value:
             input_type = CoHereEnums.Query.value
 
         response = self.client.embed(
             model=self.embedding_model_id,
-            texts=[self.process_text_input(text)],
+            texts=[self.process_text(text)],
             input_type=input_type,
             embedding_types=["float"],
         )
@@ -98,22 +102,17 @@ class CoHereProvider(LLMinterface):
             self.logger.error("Error while embedding text with CoHere")
             return None
 
-        embeddings = getattr(response, "embeddings", None)
-        if embeddings is None:
+        embeddings_by_type = getattr(response, "embeddings", None)
+        if embeddings_by_type is None:
             self.logger.error("Error while embedding text with CoHere")
             return None
 
-        float_embeddings = None
-        if isinstance(embeddings, dict):
-            float_embeddings = embeddings.get("float")
-        else:
-            float_embeddings = getattr(embeddings, "float", None)
-
-        if not float_embeddings:
+        float_embeddings = getattr(embeddings_by_type, "float", None)
+        if float_embeddings is None or len(float_embeddings) == 0:
             self.logger.error("Error while embedding text with CoHere")
             return None
 
         return float_embeddings[0]
 
-    def construct_prompt(self, prompt, role):
-        return {"role": role, "content": self.process_text_input(prompt)}
+    def construct_prompt(self, prompt: str, role: str):
+        return {"role": role, "text": self.process_text(prompt)}

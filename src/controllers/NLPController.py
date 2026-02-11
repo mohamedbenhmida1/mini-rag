@@ -7,11 +7,7 @@ import json
 
 class NLPController(BaseController):
     def __init__(
-        self,
-        vectordb_client,
-        generation_client,
-        embedding_client,
-        template_parser=None,
+        self, vectordb_client, generation_client, embedding_client, template_parser
     ):
         super().__init__()
 
@@ -48,7 +44,7 @@ class NLPController(BaseController):
 
         # step2: manage items
         texts = [c.chunk_text for c in chunks]
-        metadatas = [c.chunk_metadata for c in chunks]
+        metadata = [c.chunk_metadata for c in chunks]
         vectors = [
             self.embedding_client.embed_text(
                 text=text, document_type=DocumentTypeEnum.DOCUMENT.value
@@ -67,7 +63,7 @@ class NLPController(BaseController):
         _ = self.vectordb_client.insert_many(
             collection_name=collection_name,
             texts=texts,
-            metadatas=metadatas,
+            metadatas=metadata,
             vectors=vectors,
             record_ids=chunks_ids,
         )
@@ -112,33 +108,23 @@ class NLPController(BaseController):
             return answer, full_prompt, chat_history
 
         # step2: Construct LLM prompt
-        if self.template_parser:
-            system_prompt = self.template_parser.get("rag", "system_prompt")
-            documents_prompts = "\n".join(
-                [
-                    self.template_parser.get(
-                        "rag",
-                        "document_prompt",
-                        {
-                            "doc_num": idx + 1,
-                            "chunk_text": doc.text,
-                        },
-                    )
-                    for idx, doc in enumerate(retrieved_documents)
-                ]
-            )
-            footer_prompt = self.template_parser.get("rag", "footer_prompt")
-        else:
-            system_prompt = (
-                "You are a helpful assistant. Answer based on provided documents."
-            )
-            documents_prompts = "\n".join(
-                [
-                    f"Document {idx + 1}:\n{doc.text}"
-                    for idx, doc in enumerate(retrieved_documents)
-                ]
-            )
-            footer_prompt = f"Question: {query}\nAnswer clearly and concisely."
+        system_prompt = self.template_parser.get("rag", "system_prompt")
+
+        documents_prompts = "\n".join(
+            [
+                self.template_parser.get(
+                    "rag",
+                    "document_prompt",
+                    {
+                        "doc_num": idx + 1,
+                        "chunk_text": doc.text,
+                    },
+                )
+                for idx, doc in enumerate(retrieved_documents)
+            ]
+        )
+
+        footer_prompt = self.template_parser.get("rag", "footer_prompt")
 
         # step3: Construct Generation Client Prompts
         chat_history = [
