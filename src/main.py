@@ -36,6 +36,9 @@ async def startup_span():
     )
     app.vector_db_client.connect()
 
+    # optional component used by NLPController (safe default)
+    app.template_parser = None
+
 
 async def shutdown_span():
     app.mongodb_conn.close()

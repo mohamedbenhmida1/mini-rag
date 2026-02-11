@@ -42,8 +42,32 @@
       "response": []
     },
     {
-      "name": "New Request",
+      "name": "nlp index push",
       "id": "0b6fabec-1dde-4356-bd70-95d03d59b6c4",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "nlp index info",
+      "id": "7d985732-550a-4319-aaf1-c02ece173c20",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "nlp index search",
+      "id": "82c62c19-ae43-4be6-be34-f02a407da97b",
       "request": {
         "method": "GET",
         "header": [],
