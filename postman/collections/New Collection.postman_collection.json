@@ -12,7 +12,15 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": ""
+          "raw": "{{api}}/api/v1/",
+          "host": [
+            "{{api}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            ""
+          ]
         }
       },
       "response": []
@@ -78,7 +86,7 @@
       "response": []
     },
     {
-      "name": "New Request",
+      "name": "nlp index answer",
       "id": "dd86219d-a131-444b-b6b0-0f0d49935ed7",
       "request": {
         "method": "GET",
