@@ -1,0 +1,13 @@
+🚀 Recommended Approach:
+Step 1: Collect data using neck + spine angles only
+→ Train a baseline classifier
+
+Step 2: Analyze accuracy
+→ If performance is low, analyze which samples are misclassified
+
+Step 3: Add angles one at a time (shoulder, elbow, etc.)
+→ Track how each new feature improves your accuracy
+
+Would you like me to generate the full training pipeline that only uses neck + spine angles now?
+
+

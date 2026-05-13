@@ -1,0 +1,165 @@
+CODE :
+
+
+
+
+pip install streamlit opencv-python ultralytics pandas plotly streamlit-extras
+
+import streamlit as st
+import cv2
+import numpy as np
+import pandas as pd
+import plotly.express as px
+import time
+import json
+from streamlit_extras.badges import badge
+
+# CSS personnalisé pour une interface moderne
+st.markdown("""
+    <style>
+    .main { background-color: #f0f2f6; }
+    .sidebar .sidebar-content { background-color: #2c3e50; color: white; }
+    .stButton>button { background-color: #3498db; color: white; border-radius: 5px; }
+    .stButton>button:hover { background-color: #2980b9; }
+    .alert-box { background-color: #e74c3c; color: white; padding: 10px; border-radius: 5px; }
+    .success-box { background-color: #2ecc71; color: white; padding: 10px; border-radius: 5px; }
+    </style>
+""", unsafe_allow_html=True)
+
+# Initialiser l'état de la session
+if 'stats_history' not in st.session_state:
+    st.session_state.stats_history = []
+if 'running' not in st.session_state:
+    st.session_state.running = False
+
+# Simuler une détection (remplacez par YOLO/Mediapipe dans une version réelle)
+def process_frame(frame, detect_glasses, detect_masks, detect_posture, detect_count, detect_speed):
+    # Simulation des résultats
+    stats = {
+        "Timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "Ouvriers": np.random.randint(0, 5) if detect_count else 0,
+        "Lunettes": np.random.randint(0, 3) if detect_glasses else 0,
+        "Masques": np.random.randint(0, 2) if detect_masks else 0,
+        "Postures incorrectes": np.random.randint(0, 2) if detect_posture else 0,
+        "Vitesse moyenne (m/s)": round(np.random.uniform(0.5, 2.0), 2) if detect_speed else 0.0
+    }
+    # Simuler une annotation sur l'image
+    annotated_frame = cv2.putText(frame.copy(), "Simulation", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    return annotated_frame, stats
+
+# Menu latéral
+with st.sidebar:
+    st.header("Système de Surveillance")
+    
+    # Logo ou badge
+    badge(type="github", name="Surveillance Dashboard")
+    
+    # Section Paramètres de détection
+    st.subheader("Paramètres de détection")
+    detect_glasses = st.checkbox("Lunettes de protection", value=True, key="glasses")
+    detect_masks = st.checkbox("Masques à gaz", value=True, key="masks")
+    detect_posture = st.checkbox("Postures des ouvriers", value=False, key="posture")
+    detect_count = st.checkbox("Nombre d'ouvriers", value=True, key="count")
+    detect_speed = st.checkbox("Vitesse de déplacement", value=False, key="speed")
+    
+    # Section Configuration caméra
+    st.subheader("Configuration caméra")
+    camera_source = st.selectbox("Source caméra", ["Caméra 1", "Caméra 2", "Caméra 3"], key="camera")
+    frame_rate = st.slider("Fréquence (images/s)", 0.1, 5.0, 1.0, key="frame_rate")
+    
+    # Section Actions
+    st.subheader("Actions")
+    start_button = st.button("Démarrer", key="start")
+    stop_button = st.button("Arrêter", key="stop")
+    save_config = st.button("Sauvegarder paramètres", key="save")
+    export_stats = st.button("Exporter statistiques", key="export")
+
+# Interface principale
+st.title("Dashboard de Surveillance Intelligente")
+
+# Tabs pour organiser les vues
+tab1, tab2, tab3 = st.tabs(["Vue en direct", "Statistiques", "Historique"])
+
+with tab1:
+    st.subheader("Flux vidéo en direct")
+    video_placeholder = st.empty()
+    alert_placeholder = st.empty()
+
+with tab2:
+    st.subheader("Statistiques en temps réel")
+    stats_placeholder = st.empty()
+    chart_placeholder = st.empty()
+
+with tab3:
+    st.subheader("Historique des détections")
+    history_placeholder = st.empty()
+
+# Gestion des actions
+if start_button:
+    st.session_state.running = True
+if stop_button:
+    st.session_state.running = False
+
+# Sauvegarde des paramètres
+if save_config:
+    config = {
+        "detect_glasses": detect_glasses,
+        "detect_masks": detect_masks,
+        "detect_posture": detect_posture,
+        "detect_count": detect_count,
+        "detect_speed": detect_speed,
+        "frame_rate": frame_rate,
+        "camera_source": camera_source
+    }
+    with open("config.json", "w") as f:
+        json.dump(config, f)
+    st.success("Paramètres sauvegardés !")
+
+# Exportation des statistiques
+if export_stats and st.session_state.stats_history:
+    df = pd.DataFrame(st.session_state.stats_history)
+    df.to_csv("stats_export.csv", index=False)
+    st.success("Statistiques exportées dans stats_export.csv")
+
+# Simulation de la caméra (remplacez par cv2.VideoCapture dans une version réelle)
+cap = None  # cv2.VideoCapture(0) pour une caméra réelle
+frame = np.zeros((480, 640, 3), dtype=np.uint8)  # Image placeholder
+
+# Boucle de surveillance
+if st.session_state.running:
+    while st.session_state.running:
+        # Traiter l'image
+        annotated_frame, stats = process_frame(frame, detect_glasses, detect_masks, detect_posture, detect_count, detect_speed)
+        
+        # Afficher le flux vidéo
+        with tab1:
+            video_placeholder.image(annotated_frame, channels="BGR", caption="Flux en direct")
+            
+            # Afficher des alertes
+            if stats["Lunettes"] < stats["Ouvriers"]:
+                alert_placeholder.markdown('<div class="alert-box">Alerte : Lunettes manquantes !</div>', unsafe_allow_html=True)
+            elif stats["Masques"] < stats["Ouvriers"]:
+                alert_placeholder.markdown('<div class="alert-box">Alerte : Masques manquants !</div>', unsafe_allow_html=True)
+            else:
+                alert_placeholder.markdown('<div class="success-box">Tout est conforme</div>', unsafe_allow_html=True)
+        
+        # Mettre à jour les statistiques
+        st.session_state.stats_history.append(stats)
+        df_stats = pd.DataFrame(st.session_state.stats_history)
+        
+        with tab2:
+            stats_placeholder.write(stats)
+            if detect_count:
+                fig = px.line(df_stats, x="Timestamp", y="Ouvriers", title="Nombre d'ouvriers détectés")
+                chart_placeholder.plotly_chart(fig, use_container_width=True)
+        
+        with tab3:
+            history_placeholder.dataframe(df_stats)
+        
+        # Contrôler la fréquence
+        time.sleep(1 / frame_rate)
+
+# Libérer la caméra (si utilisée)
+if cap:
+    cap.release()
+

@@ -1,0 +1,108 @@
+{
+  "info": {
+    "_postman_id": "9031c205-c99e-4414-84a3-06f1fdb854ad",
+    "name": "mini-rag-app",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "New Request",
+      "id": "d00c4e41-373f-4398-8670-8b62b829dabd",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{api}}/api/v1/",
+          "host": [
+            "{{api}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Upload",
+      "id": "af631828-f554-47d9-9745-56ab420c4a49",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process",
+      "id": "22b55f4a-e51a-42c1-a027-1d984a25e176",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "nlp index push",
+      "id": "0b6fabec-1dde-4356-bd70-95d03d59b6c4",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "nlp index info",
+      "id": "7d985732-550a-4319-aaf1-c02ece173c20",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "nlp index search",
+      "id": "82c62c19-ae43-4be6-be34-f02a407da97b",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "nlp index answer",
+      "id": "dd86219d-a131-444b-b6b0-0f0d49935ed7",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "id": "a6dac9e5-cae0-4629-adbc-93a53752b8e0",
+      "key": "api",
+      "value": ""
+    }
+  ]
+}
