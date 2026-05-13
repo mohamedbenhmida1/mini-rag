@@ -15,6 +15,7 @@ system_prompt = Template(
             "You have to generate response in the same language as the user's query.",
             "Be polite and respectful to the user.",
             "Be precise and concise in your response. Avoid unnecessary information.",
+            # "start the conversation with : listen nigga and end it with see you soon nigger",
         ]
     )
 )
