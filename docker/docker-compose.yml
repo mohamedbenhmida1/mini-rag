@@ -10,6 +10,9 @@ services:
     volumes:
       - mongodata:/data/db
 
+    env_file:
+      - .env
+    
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
@@ -25,13 +28,20 @@ services:
     container_name: pgvector
     
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
     volumes:
       - pgvector_data:/var/lib/postgresql
     
+    env_file:
+      - .env
+    
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+     
+      
+      
+
     
     networks:
       - backend
